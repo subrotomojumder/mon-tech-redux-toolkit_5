@@ -1,22 +1,28 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../app/features/cart/cartSlice';
+import { stockToggle, toggleBrand } from '../app/features/filter/filterSlice';
+import { getProducts } from '../app/features/products/productSlice';
 import Product from './Components/Product';
-import { toggleBrand, toggleStock } from './Redux/FilterAction/filterAction';
-import { addToCart, loadProducts } from './Redux/productAction/productAction';
-import loadProductData from './Redux/thunk/products/fetchProducts';
 
 const Home = () => {
-    const dispatch = useDispatch();
-    const filters = useSelector((state) => state.filter.filters);
-    const products = useSelector((state) => state.product.products);
     const activeClass = "btn-primary";
-    const { brands, stock } = filters;
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(loadProductData())
+        dispatch(getProducts())
     }, [dispatch])
+    const { isLoading, isError, error, products } = useSelector((state) => state.products)
+    const { stock, brands } = useSelector((state) => state.filter);
     // console.log(products)
 
     let content;
+    if (isLoading) {
+        return content = <h3 className='text-xl my-6'>Loading...</h3>;
+    }
+    if (isLoading || isError) {
+        return content = <h3>{error}</h3>;
+    }
+
     if (products.length) {
         content = products.map(product => <Product product={product} key={product.idMeal}>
             <div className='flex justify-between items-center mb-4'>
@@ -55,7 +61,10 @@ const Home = () => {
             <div className='my-4 flex justify-between items-center'>
                 <h4 className='text-2xl text-left'> Home page</h4>
                 <div>
-                    <button onClick={() => dispatch(toggleStock())} className={`btn btn-sm ml-1 ${stock ? activeClass : "btn-outline"}`}>In stock</button>
+                    <button
+                        onClick={() => dispatch(stockToggle())}
+                        className={`btn btn-sm ml-1 ${stock ? activeClass : "btn-outline"}`}
+                    >In stock</button>
                     <button onClick={() => dispatch(toggleBrand("Canadian"))} className={`btn btn-sm ml-1 ${brands.includes("Canadian") ? activeClass : "btn-outline"}`}>Canadian</button>
                     <button onClick={() => dispatch(toggleBrand("Italian"))} className={`btn btn-sm ml-1 ${brands.includes("Italian") ? activeClass : "btn-outline"}`}>Italian</button>
                 </div>

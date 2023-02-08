@@ -16,6 +16,7 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1 mr-4">
                         <Link to='/'><li className='btn btn-ghost'>Home</li></Link>
                         <Link to='/create-user'><li className='btn btn-ghost'>Create user</li></Link>
+                        <Link to='users'><li className='btn btn-ghost' tabIndex={0}>Users</li></Link>
                         <Link to='add-to-cart'><li className='btn btn-ghost' tabIndex={0}>Added-cart<sup>5</sup></li></Link>
                     </ul>
                 </div>

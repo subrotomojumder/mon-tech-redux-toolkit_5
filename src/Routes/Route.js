@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import AddToCart from "../pages/AddToCart";
 import Home from "../pages/Home";
-import TopProducts from "../pages/TopProducts";
 import Main from "../pages/Layout/Main";
 import CreateUser from "../pages/CreateUser";
+import Cart from "../pages/Cart";
+import Users from "../pages/AllUsers";
 
 export const router = createBrowserRouter([
     {
@@ -20,7 +20,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/add-to-cart',
-                element: <AddToCart />
+                element: <Cart />
+            },
+            {
+                path: '/users',
+                element: <Users/>
             },
 
         ]
